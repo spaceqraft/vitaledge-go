@@ -112,10 +112,18 @@ func main() {
 
 	ctx := context.Background()
 
+	caps, err := client.Capabilities(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println("Resetting graph ...")
 	if err := resetGraph(ctx, client); err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println("Ensuring ingest lookup indexes ...")
+	ensureIngestIndexes(ctx, client, caps.GetIndexDdlSupported())
 
 	fmt.Println("Ingesting graph ...")
 	if err := ingestGraph(ctx, client, movies, ratings, *batchSize, *edgeBatchSize); err != nil {
@@ -288,6 +296,35 @@ func mustFloat(raw string) float64 {
 func resetGraph(ctx context.Context, client *vitaledge.Client) error {
 	_, err := client.Execute(ctx, "MATCH (n:Movie|Genre|User) DETACH DELETE n", nil)
 	return err
+}
+
+func ensureIngestIndexes(ctx context.Context, client *vitaledge.Client, supported bool) {
+	if !supported {
+		fmt.Println("  Index DDL not supported by this server; continuing without index creation")
+		return
+	}
+
+	specs := []struct {
+		schema   string
+		property string
+	}{
+		{schema: "Movie", property: "movie_id"},
+		{schema: "User", property: "user_id"},
+		{schema: "Genre", property: "genre"},
+	}
+
+	for _, spec := range specs {
+		result, err := client.CreatePropertyIndex(ctx, spec.schema, spec.property, true)
+		if err != nil {
+			fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+			continue
+		}
+		state := "already exists"
+		if result.Created {
+			state = "created"
+		}
+		fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
+	}
 }
 
 func ingestGraph(ctx context.Context, client *vitaledge.Client, movies []movieRecord, ratings []ratingRecord, batchSize int, edgeBatchSize int) error {

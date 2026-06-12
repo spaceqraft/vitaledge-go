@@ -71,6 +71,12 @@ type Diagnostic struct {
 	Message string
 }
 
+type CreatePropertyIndexResult struct {
+	Created         bool
+	IndexedEntities int64
+	Raw             *v1.CreatePropertyIndexResponse
+}
+
 func New(target string, opts ...Option) (*Client, error) {
 	if strings.TrimSpace(target) == "" {
 		return nil, errors.New("target is required")
@@ -214,6 +220,24 @@ func (c *Client) Capabilities(ctx context.Context) (*v1.CapabilitiesResponse, er
 	return resp, nil
 }
 
+func (c *Client) CreatePropertyIndex(ctx context.Context, schema string, property string, ifNotExists bool) (*CreatePropertyIndexResult, error) {
+	req, err := c.createPropertyIndexRequest(schema, property, ifNotExists)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.query.CreatePropertyIndex(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("create property index: %w", err)
+	}
+
+	return &CreatePropertyIndexResult{
+		Created:         resp.GetCreated(),
+		IndexedEntities: resp.GetIndexedEntities(),
+		Raw:             resp,
+	}, nil
+}
+
 func (c *Client) cypherRequest(query string, parameters map[string]any, opts ...QueryOption) (*v1.QueryRequest, error) {
 	trimmed := strings.TrimSpace(query)
 	if trimmed == "" {
@@ -252,6 +276,25 @@ func (c *Client) preparedRequest(prepared PreparedQuery, opts ...QueryOption) (*
 	return c.buildRequest(&v1.QueryInput{
 		Kind: &v1.QueryInput_Prepared{Prepared: protoPrepared},
 	}, nil, opts...), nil
+}
+
+func (c *Client) createPropertyIndexRequest(schema string, property string, ifNotExists bool) (*v1.CreatePropertyIndexRequest, error) {
+	trimmedSchema := strings.TrimSpace(schema)
+	if trimmedSchema == "" {
+		return nil, errors.New("schema is required")
+	}
+
+	trimmedProperty := strings.TrimSpace(property)
+	if trimmedProperty == "" {
+		return nil, errors.New("property is required")
+	}
+
+	return &v1.CreatePropertyIndexRequest{
+		Tenant:      c.tenant,
+		Schema:      trimmedSchema,
+		Property:    trimmedProperty,
+		IfNotExists: ifNotExists,
+	}, nil
 }
 
 func (c *Client) buildRequest(input *v1.QueryInput, parameters map[string]*v1.Value, opts ...QueryOption) *v1.QueryRequest {

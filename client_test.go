@@ -149,3 +149,40 @@ func TestCypherRequestPreservesQueryAndAddsParameters(t *testing.T) {
 		t.Fatalf("parameter mismatch: %q", got)
 	}
 }
+
+func TestCreatePropertyIndexRequestBuildsExpectedPayload(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: "acme"}
+	req, err := client.createPropertyIndexRequest("Movie", "movie_id", true)
+	if err != nil {
+		t.Fatalf("createPropertyIndexRequest() unexpected error: %v", err)
+	}
+
+	if req.GetTenant() != "acme" {
+		t.Fatalf("tenant mismatch: %q", req.GetTenant())
+	}
+	if req.GetSchema() != "Movie" {
+		t.Fatalf("schema mismatch: %q", req.GetSchema())
+	}
+	if req.GetProperty() != "movie_id" {
+		t.Fatalf("property mismatch: %q", req.GetProperty())
+	}
+	if !req.GetIfNotExists() {
+		t.Fatal("expected if_not_exists=true")
+	}
+}
+
+func TestCreatePropertyIndexRequestValidation(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: DefaultTenant}
+
+	if _, err := client.createPropertyIndexRequest("", "movie_id", true); err == nil {
+		t.Fatal("expected error for empty schema")
+	}
+
+	if _, err := client.createPropertyIndexRequest("Movie", "", true); err == nil {
+		t.Fatal("expected error for empty property")
+	}
+}

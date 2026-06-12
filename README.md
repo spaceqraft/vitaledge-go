@@ -1,8 +1,10 @@
 # vitaledge-go
 
-`vitaledge-go` is a small Go client for VitalEdge's gRPC `QueryService`.
+`vitaledge-go` is a Go client library for VitalEdge's gRPC `QueryService`.
 
-It targets the VitalEdge endpoint already exposed by the server at `127.0.0.1:7443` and defaults to plaintext gRPC, which matches the current server setup.
+It provides typed request/response handling for Execute, Explain, Prepared Query execution, and capability discovery over gRPC.
+
+By default, the client dials `127.0.0.1:7443` with plaintext transport credentials. If your deployment requires TLS or other gRPC dial behavior, configure it with `WithDialOptions(...)`.
 
 ## Install
 
@@ -63,6 +65,8 @@ func main() {
 - `ExecutePrepared(ctx, prepared, opts...)` sends a prepared-query payload.
 - `Explain(ctx, cypher, opts...)` returns the raw explain JSON payload plus stats and warnings.
 - `Capabilities(ctx)` fetches server protocol and prepared-query support metadata.
+- `CreatePropertyIndex(ctx, schema, property, ifNotExists)` creates an index via gRPC when index DDL is supported by the server.
+- `Close()` closes the underlying gRPC connection.
 
 Parameter example:
 
@@ -111,8 +115,9 @@ go run ./examples/advanced_cyber_threat_detection \
 
 ## Notes
 
-- The repository includes the VitalEdge protobuf definition and generated Go stubs under `api/proto/vitaledge/v1`, so it builds independently of the server repo.
-- The default dial behavior is plaintext gRPC via `insecure.NewCredentials()` because the current VitalEdge gRPC server on port `7443` is not configured with TLS.
+- The repository vendors the VitalEdge protobuf definition and generated Go stubs under `api/proto/vitaledge/v1`, so builds do not depend on external proto generation at install time.
+- Default dial behavior is plaintext gRPC via `insecure.NewCredentials()` to match the current local server setup.
+- For TLS or custom transport settings, pass explicit gRPC dial options with `WithDialOptions(...)`.
 
 ## Regenerate Protobuf Stubs
 
