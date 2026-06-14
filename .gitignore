@@ -1,0 +1,12 @@
+dist/
+tools/*
+data/
+.vscode/settings.json
+.env.local
+coverage*.txt
+coverage*.html
+.idea/
+.claude/
+bin/
+.cache/
+examples/**/*.csv
