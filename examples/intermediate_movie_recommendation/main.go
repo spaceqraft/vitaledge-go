@@ -305,25 +305,42 @@ func ensureIngestIndexes(ctx context.Context, client *vitaledge.Client, supporte
 	}
 
 	specs := []struct {
+		itype    string
 		schema   string
 		property string
 	}{
-		{schema: "Movie", property: "movie_id"},
-		{schema: "User", property: "user_id"},
-		{schema: "Genre", property: "genre"},
+		{itype: "Vertex", schema: "Movie", property: "movie_id"},
+		{itype: "Vertex", schema: "User", property: "user_id"},
+		{itype: "Vertex", schema: "Genre", property: "genre"},
+		{itype: "Vertex", schema: "Movie", property: "year"},
+		{itype: "Vertex", schema: "Movie", property: "num_ratings"},
+		{itype: "Edge", schema: "RATED", property: "rating"},
 	}
 
 	for _, spec := range specs {
-		result, err := client.CreatePropertyIndex(ctx, spec.schema, spec.property, true)
-		if err != nil {
-			fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
-			continue
+		if spec.itype == "Vertex" {
+			result, err := client.CreateVertexPropertyIndex(ctx, spec.schema, spec.property, true)
+			if err != nil {
+				fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+				continue
+			}
+			state := "already exists"
+			if result.Created {
+				state = "created"
+			}
+			fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
+		} else if spec.itype == "Edge" {
+			result, err := client.CreateEdgePropertyIndex(ctx, spec.schema, spec.property, true)
+			if err != nil {
+				fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+				continue
+			}
+			state := "already exists"
+			if result.Created {
+				state = "created"
+			}
+			fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
 		}
-		state := "already exists"
-		if result.Created {
-			state = "created"
-		}
-		fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
 	}
 }
 

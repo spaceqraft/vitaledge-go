@@ -113,6 +113,13 @@ func main() {
 	if err := resetGraph(ctx, client); err != nil {
 		log.Fatal(err)
 	}
+	caps, err := client.Capabilities(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := ensureIngestIndexes(ctx, client, caps.GetIndexDdlSupported()); err != nil {
+		log.Fatal(err)
+	}
 	if err := ingestFlows(ctx, client, records, *batchSize); err != nil {
 		log.Fatal(err)
 	}
@@ -221,6 +228,54 @@ func toInt(raw string) int {
 func resetGraph(ctx context.Context, client *vitaledge.Client) error {
 	_, err := client.Execute(ctx, "MATCH (f:Host|Flow) DETACH DELETE f", nil)
 	return err
+}
+
+func ensureIngestIndexes(ctx context.Context, client *vitaledge.Client, supported bool) error {
+	if !supported {
+		fmt.Println("  Index DDL not supported by this server; continuing without index creation")
+		return nil
+	}
+
+	specs := []struct {
+		itype    string
+		schema   string
+		property string
+	}{
+		{itype: "Vertex", schema: "Host", property: "ip"},
+		{itype: "Vertex", schema: "Flow", property: "protocol"},
+		{itype: "Vertex", schema: "Flow", property: "detected_malicious"},
+		{itype: "Vertex", schema: "Flow", property: "suspicious_flows"},
+		{itype: "Vertex", schema: "Flow", property: "distinct_targets"},
+		{itype: "Vertex", schema: "Flow", property: "distinct_ports"},
+	}
+
+	for _, spec := range specs {
+		if spec.itype == "Vertex" {
+			result, err := client.CreateVertexPropertyIndex(ctx, spec.schema, spec.property, true)
+			if err != nil {
+				fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+				continue
+			}
+			state := "already exists"
+			if result.Created {
+				state = "created"
+			}
+			fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
+		} else if spec.itype == "Edge" {
+			result, err := client.CreateEdgePropertyIndex(ctx, spec.schema, spec.property, true)
+			if err != nil {
+				fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+				continue
+			}
+			state := "already exists"
+			if result.Created {
+				state = "created"
+			}
+			fmt.Printf("  Index %s.%s: %s (indexed_entities=%d)\n", spec.schema, spec.property, state, result.IndexedEntities)
+		}
+	}
+
+	return nil
 }
 
 func ingestFlows(ctx context.Context, client *vitaledge.Client, records []flowRecord, batchSize int) error {

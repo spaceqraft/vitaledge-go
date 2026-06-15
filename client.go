@@ -31,7 +31,8 @@ type config struct {
 
 type Client struct {
 	conn          *grpc.ClientConn
-	query         v1.QueryServiceClient
+	ddl           v1.DdlServiceClient
+	dml           v1.DmlServiceClient
 	tenant        string
 	clientContext *v1.ClientContext
 }
@@ -74,7 +75,8 @@ type Diagnostic struct {
 type CreatePropertyIndexResult struct {
 	Created         bool
 	IndexedEntities int64
-	Raw             *v1.CreatePropertyIndexResponse
+	RawVertex       *v1.CreateVertexPropertyIndexResponse
+	RawEdge         *v1.CreateEdgePropertyIndexResponse
 }
 
 func New(target string, opts ...Option) (*Client, error) {
@@ -107,7 +109,8 @@ func New(target string, opts ...Option) (*Client, error) {
 
 	return &Client{
 		conn:          conn,
-		query:         v1.NewQueryServiceClient(conn),
+		ddl:           v1.NewDdlServiceClient(conn),
+		dml:           v1.NewDmlServiceClient(conn),
 		tenant:        cfg.tenant,
 		clientContext: cfg.clientContext,
 	}, nil
@@ -173,7 +176,7 @@ func (c *Client) Execute(ctx context.Context, query string, parameters map[strin
 		return nil, err
 	}
 
-	resp, err := c.query.Execute(ctx, req)
+	resp, err := c.dml.Execute(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("execute query: %w", err)
 	}
@@ -186,7 +189,7 @@ func (c *Client) ExecutePrepared(ctx context.Context, prepared PreparedQuery, op
 		return nil, err
 	}
 
-	resp, err := c.query.Execute(ctx, req)
+	resp, err := c.dml.Execute(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("execute prepared query: %w", err)
 	}
@@ -199,7 +202,7 @@ func (c *Client) Explain(ctx context.Context, query string, opts ...QueryOption)
 		return nil, err
 	}
 
-	resp, err := c.query.Explain(ctx, req)
+	resp, err := c.dml.Explain(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("explain query: %w", err)
 	}
@@ -213,20 +216,20 @@ func (c *Client) Explain(ctx context.Context, query string, opts ...QueryOption)
 }
 
 func (c *Client) Capabilities(ctx context.Context) (*v1.CapabilitiesResponse, error) {
-	resp, err := c.query.GetCapabilities(ctx, &v1.CapabilitiesRequest{})
+	resp, err := c.dml.GetCapabilities(ctx, &v1.CapabilitiesRequest{})
 	if err != nil {
 		return nil, fmt.Errorf("get capabilities: %w", err)
 	}
 	return resp, nil
 }
 
-func (c *Client) CreatePropertyIndex(ctx context.Context, schema string, property string, ifNotExists bool) (*CreatePropertyIndexResult, error) {
-	req, err := c.createPropertyIndexRequest(schema, property, ifNotExists)
+func (c *Client) CreateVertexPropertyIndex(ctx context.Context, schema string, property string, ifNotExists bool) (*CreatePropertyIndexResult, error) {
+	req, err := c.createVertexPropertyIndexRequest(schema, property, ifNotExists)
 	if err != nil {
 		return nil, err
 	}
 
-	resp, err := c.query.CreatePropertyIndex(ctx, req)
+	resp, err := c.ddl.CreateVertexPropertyIndex(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("create property index: %w", err)
 	}
@@ -234,7 +237,27 @@ func (c *Client) CreatePropertyIndex(ctx context.Context, schema string, propert
 	return &CreatePropertyIndexResult{
 		Created:         resp.GetCreated(),
 		IndexedEntities: resp.GetIndexedEntities(),
-		Raw:             resp,
+		RawVertex:       resp,
+		RawEdge:         nil,
+	}, nil
+}
+
+func (c *Client) CreateEdgePropertyIndex(ctx context.Context, schema string, property string, ifNotExists bool) (*CreatePropertyIndexResult, error) {
+	req, err := c.createEdgePropertyIndexRequest(schema, property, ifNotExists)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.ddl.CreateEdgePropertyIndex(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("create property index: %w", err)
+	}
+
+	return &CreatePropertyIndexResult{
+		Created:         resp.GetCreated(),
+		IndexedEntities: resp.GetIndexedEntities(),
+		RawVertex:       nil,
+		RawEdge:         resp,
 	}, nil
 }
 
@@ -278,7 +301,7 @@ func (c *Client) preparedRequest(prepared PreparedQuery, opts ...QueryOption) (*
 	}, nil, opts...), nil
 }
 
-func (c *Client) createPropertyIndexRequest(schema string, property string, ifNotExists bool) (*v1.CreatePropertyIndexRequest, error) {
+func (c *Client) createVertexPropertyIndexRequest(schema string, property string, ifNotExists bool) (*v1.CreateVertexPropertyIndexRequest, error) {
 	trimmedSchema := strings.TrimSpace(schema)
 	if trimmedSchema == "" {
 		return nil, errors.New("schema is required")
@@ -289,7 +312,26 @@ func (c *Client) createPropertyIndexRequest(schema string, property string, ifNo
 		return nil, errors.New("property is required")
 	}
 
-	return &v1.CreatePropertyIndexRequest{
+	return &v1.CreateVertexPropertyIndexRequest{
+		Tenant:      c.tenant,
+		Schema:      trimmedSchema,
+		Property:    trimmedProperty,
+		IfNotExists: ifNotExists,
+	}, nil
+}
+
+func (c *Client) createEdgePropertyIndexRequest(schema string, property string, ifNotExists bool) (*v1.CreateEdgePropertyIndexRequest, error) {
+	trimmedSchema := strings.TrimSpace(schema)
+	if trimmedSchema == "" {
+		return nil, errors.New("schema is required")
+	}
+
+	trimmedProperty := strings.TrimSpace(property)
+	if trimmedProperty == "" {
+		return nil, errors.New("property is required")
+	}
+
+	return &v1.CreateEdgePropertyIndexRequest{
 		Tenant:      c.tenant,
 		Schema:      trimmedSchema,
 		Property:    trimmedProperty,
