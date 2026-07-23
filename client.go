@@ -79,6 +79,12 @@ type CreatePropertyIndexResult struct {
 	RawEdge         *v1.CreateEdgePropertyIndexResponse
 }
 
+type CreateIdentityConfigResult struct {
+	Created   bool
+	RawVertex *v1.CreateVertexIdentityConfigResponse
+	RawEdge   *v1.CreateEdgeIdentityConfigResponse
+}
+
 func New(target string, opts ...Option) (*Client, error) {
 	if strings.TrimSpace(target) == "" {
 		return nil, errors.New("target is required")
@@ -261,6 +267,42 @@ func (c *Client) CreateEdgePropertyIndex(ctx context.Context, schema string, pro
 	}, nil
 }
 
+func (c *Client) CreateVertexIdentityConfig(ctx context.Context, schema string, identityProperties []string, ifNotExists bool) (*CreateIdentityConfigResult, error) {
+	req, err := c.createVertexIdentityConfigRequest(schema, identityProperties, ifNotExists)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.ddl.CreateVertexIdentityConfig(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("create identity config: %w", err)
+	}
+
+	return &CreateIdentityConfigResult{
+		Created:   resp.GetCreated(),
+		RawVertex: resp,
+		RawEdge:   nil,
+	}, nil
+}
+
+func (c *Client) CreateEdgeIdentityConfig(ctx context.Context, edgeType string, identityProperties []string, ifNotExists bool) (*CreateIdentityConfigResult, error) {
+	req, err := c.createEdgeIdentityConfigRequest(edgeType, identityProperties, ifNotExists)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.ddl.CreateEdgeIdentityConfig(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("create identity config: %w", err)
+	}
+
+	return &CreateIdentityConfigResult{
+		Created:   resp.GetCreated(),
+		RawVertex: nil,
+		RawEdge:   resp,
+	}, nil
+}
+
 func (c *Client) cypherRequest(query string, parameters map[string]any, opts ...QueryOption) (*v1.QueryRequest, error) {
 	trimmed := strings.TrimSpace(query)
 	if trimmed == "" {
@@ -337,6 +379,65 @@ func (c *Client) createEdgePropertyIndexRequest(schema string, property string, 
 		Property:    trimmedProperty,
 		IfNotExists: ifNotExists,
 	}, nil
+}
+
+func (c *Client) createVertexIdentityConfigRequest(schema string, identityProperties []string, ifNotExists bool) (*v1.CreateVertexIdentityConfigRequest, error) {
+	trimmedSchema := strings.TrimSpace(schema)
+	if trimmedSchema == "" {
+		return nil, errors.New("schema is required")
+	}
+
+	trimmedIdentityProperties, err := normalizeIdentityProperties(identityProperties)
+	if err != nil {
+		return nil, err
+	}
+
+	return &v1.CreateVertexIdentityConfigRequest{
+		Tenant:             c.tenant,
+		Schema:             trimmedSchema,
+		IdentityProperties: trimmedIdentityProperties,
+		IfNotExists:        ifNotExists,
+	}, nil
+}
+
+func (c *Client) createEdgeIdentityConfigRequest(edgeType string, identityProperties []string, ifNotExists bool) (*v1.CreateEdgeIdentityConfigRequest, error) {
+	trimmedEdgeType := strings.TrimSpace(edgeType)
+	if trimmedEdgeType == "" {
+		return nil, errors.New("edge type is required")
+	}
+
+	trimmedIdentityProperties, err := normalizeIdentityProperties(identityProperties)
+	if err != nil {
+		return nil, err
+	}
+
+	return &v1.CreateEdgeIdentityConfigRequest{
+		Tenant:             c.tenant,
+		EdgeType:           trimmedEdgeType,
+		IdentityProperties: trimmedIdentityProperties,
+		IfNotExists:        ifNotExists,
+	}, nil
+}
+
+func (c *Client) createPropertyIndexRequest(schema string, property string, ifNotExists bool) (*v1.CreateVertexPropertyIndexRequest, error) {
+	return c.createVertexPropertyIndexRequest(schema, property, ifNotExists)
+}
+
+func normalizeIdentityProperties(identityProperties []string) ([]string, error) {
+	if len(identityProperties) == 0 {
+		return nil, errors.New("identity properties are required")
+	}
+
+	trimmed := make([]string, 0, len(identityProperties))
+	for i, property := range identityProperties {
+		trimmedProperty := strings.TrimSpace(property)
+		if trimmedProperty == "" {
+			return nil, fmt.Errorf("identity property at index %d is required", i)
+		}
+		trimmed = append(trimmed, trimmedProperty)
+	}
+
+	return trimmed, nil
 }
 
 func (c *Client) buildRequest(input *v1.QueryInput, parameters map[string]*v1.Value, opts ...QueryOption) *v1.QueryRequest {

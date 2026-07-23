@@ -7,6 +7,11 @@ option go_package = "github.com/spaceqraft/vitaledge/api/proto/vitaledge/v1;v1";
 service DdlService {
   rpc CreateVertexPropertyIndex(CreateVertexPropertyIndexRequest) returns (CreateVertexPropertyIndexResponse);
   rpc CreateEdgePropertyIndex(CreateEdgePropertyIndexRequest) returns (CreateEdgePropertyIndexResponse);
+  rpc CreateVertexIdentityConfig(CreateVertexIdentityConfigRequest) returns (CreateVertexIdentityConfigResponse);
+  rpc CreateEdgeIdentityConfig(CreateEdgeIdentityConfigRequest) returns (CreateEdgeIdentityConfigResponse);
+  rpc ListIdentityConfigs(ListIdentityConfigsRequest) returns (ListIdentityConfigsResponse);
+  rpc DeleteVertexIdentityConfig(DeleteVertexIdentityConfigRequest) returns (DeleteVertexIdentityConfigResponse);
+  rpc DeleteEdgeIdentityConfig(DeleteEdgeIdentityConfigRequest) returns (DeleteEdgeIdentityConfigResponse);
 }
 
 message CreateVertexPropertyIndexRequest {
@@ -31,4 +36,67 @@ message CreateEdgePropertyIndexRequest {
 message CreateEdgePropertyIndexResponse {
   bool created = 1;
   int64 indexed_entities = 2;
+}
+
+message CreateVertexIdentityConfigRequest {
+  string tenant = 1;
+  string schema = 2;
+  repeated string identity_properties = 3;
+  bool if_not_exists = 4;
+}
+
+message CreateVertexIdentityConfigResponse {
+  bool created = 1;
+}
+
+message CreateEdgeIdentityConfigRequest {
+  string tenant = 1;
+  string edge_type = 2;
+  repeated string identity_properties = 3;
+  bool if_not_exists = 4;
+}
+
+message CreateEdgeIdentityConfigResponse {
+  bool created = 1;
+}
+
+message VertexIdentityConfig {
+  string tenant = 1;
+  string schema = 2;
+  repeated string identity_properties = 3;
+}
+
+message EdgeIdentityConfig {
+  string tenant = 1;
+  string edge_type = 2;
+  repeated string identity_properties = 3;
+}
+
+message ListIdentityConfigsRequest {
+  string tenant = 1;
+}
+
+message ListIdentityConfigsResponse {
+  repeated VertexIdentityConfig vertex_configs = 1;
+  repeated EdgeIdentityConfig edge_configs = 2;
+}
+
+message DeleteVertexIdentityConfigRequest {
+  string tenant = 1;
+  string schema = 2;
+  bool if_exists = 3;
+}
+
+message DeleteVertexIdentityConfigResponse {
+  bool deleted = 1;
+}
+
+message DeleteEdgeIdentityConfigRequest {
+  string tenant = 1;
+  string edge_type = 2;
+  bool if_exists = 3;
+}
+
+message DeleteEdgeIdentityConfigResponse {
+  bool deleted = 1;
 }

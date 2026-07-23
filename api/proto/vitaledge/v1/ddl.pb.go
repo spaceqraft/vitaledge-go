@@ -261,6 +261,654 @@ func (x *CreateEdgePropertyIndexResponse) GetIndexedEntities() int64 {
 	return 0
 }
 
+type CreateVertexIdentityConfigRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Tenant             string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	Schema             string                 `protobuf:"bytes,2,opt,name=schema,proto3" json:"schema,omitempty"`
+	IdentityProperties []string               `protobuf:"bytes,3,rep,name=identity_properties,json=identityProperties,proto3" json:"identity_properties,omitempty"`
+	IfNotExists        bool                   `protobuf:"varint,4,opt,name=if_not_exists,json=ifNotExists,proto3" json:"if_not_exists,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *CreateVertexIdentityConfigRequest) Reset() {
+	*x = CreateVertexIdentityConfigRequest{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateVertexIdentityConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateVertexIdentityConfigRequest) ProtoMessage() {}
+
+func (x *CreateVertexIdentityConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateVertexIdentityConfigRequest.ProtoReflect.Descriptor instead.
+func (*CreateVertexIdentityConfigRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *CreateVertexIdentityConfigRequest) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *CreateVertexIdentityConfigRequest) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *CreateVertexIdentityConfigRequest) GetIdentityProperties() []string {
+	if x != nil {
+		return x.IdentityProperties
+	}
+	return nil
+}
+
+func (x *CreateVertexIdentityConfigRequest) GetIfNotExists() bool {
+	if x != nil {
+		return x.IfNotExists
+	}
+	return false
+}
+
+type CreateVertexIdentityConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Created       bool                   `protobuf:"varint,1,opt,name=created,proto3" json:"created,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateVertexIdentityConfigResponse) Reset() {
+	*x = CreateVertexIdentityConfigResponse{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateVertexIdentityConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateVertexIdentityConfigResponse) ProtoMessage() {}
+
+func (x *CreateVertexIdentityConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateVertexIdentityConfigResponse.ProtoReflect.Descriptor instead.
+func (*CreateVertexIdentityConfigResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *CreateVertexIdentityConfigResponse) GetCreated() bool {
+	if x != nil {
+		return x.Created
+	}
+	return false
+}
+
+type CreateEdgeIdentityConfigRequest struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Tenant             string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	EdgeType           string                 `protobuf:"bytes,2,opt,name=edge_type,json=edgeType,proto3" json:"edge_type,omitempty"`
+	IdentityProperties []string               `protobuf:"bytes,3,rep,name=identity_properties,json=identityProperties,proto3" json:"identity_properties,omitempty"`
+	IfNotExists        bool                   `protobuf:"varint,4,opt,name=if_not_exists,json=ifNotExists,proto3" json:"if_not_exists,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *CreateEdgeIdentityConfigRequest) Reset() {
+	*x = CreateEdgeIdentityConfigRequest{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateEdgeIdentityConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEdgeIdentityConfigRequest) ProtoMessage() {}
+
+func (x *CreateEdgeIdentityConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEdgeIdentityConfigRequest.ProtoReflect.Descriptor instead.
+func (*CreateEdgeIdentityConfigRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *CreateEdgeIdentityConfigRequest) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *CreateEdgeIdentityConfigRequest) GetEdgeType() string {
+	if x != nil {
+		return x.EdgeType
+	}
+	return ""
+}
+
+func (x *CreateEdgeIdentityConfigRequest) GetIdentityProperties() []string {
+	if x != nil {
+		return x.IdentityProperties
+	}
+	return nil
+}
+
+func (x *CreateEdgeIdentityConfigRequest) GetIfNotExists() bool {
+	if x != nil {
+		return x.IfNotExists
+	}
+	return false
+}
+
+type CreateEdgeIdentityConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Created       bool                   `protobuf:"varint,1,opt,name=created,proto3" json:"created,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CreateEdgeIdentityConfigResponse) Reset() {
+	*x = CreateEdgeIdentityConfigResponse{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CreateEdgeIdentityConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CreateEdgeIdentityConfigResponse) ProtoMessage() {}
+
+func (x *CreateEdgeIdentityConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CreateEdgeIdentityConfigResponse.ProtoReflect.Descriptor instead.
+func (*CreateEdgeIdentityConfigResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *CreateEdgeIdentityConfigResponse) GetCreated() bool {
+	if x != nil {
+		return x.Created
+	}
+	return false
+}
+
+type VertexIdentityConfig struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Tenant             string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	Schema             string                 `protobuf:"bytes,2,opt,name=schema,proto3" json:"schema,omitempty"`
+	IdentityProperties []string               `protobuf:"bytes,3,rep,name=identity_properties,json=identityProperties,proto3" json:"identity_properties,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *VertexIdentityConfig) Reset() {
+	*x = VertexIdentityConfig{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *VertexIdentityConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*VertexIdentityConfig) ProtoMessage() {}
+
+func (x *VertexIdentityConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use VertexIdentityConfig.ProtoReflect.Descriptor instead.
+func (*VertexIdentityConfig) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *VertexIdentityConfig) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *VertexIdentityConfig) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *VertexIdentityConfig) GetIdentityProperties() []string {
+	if x != nil {
+		return x.IdentityProperties
+	}
+	return nil
+}
+
+type EdgeIdentityConfig struct {
+	state              protoimpl.MessageState `protogen:"open.v1"`
+	Tenant             string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	EdgeType           string                 `protobuf:"bytes,2,opt,name=edge_type,json=edgeType,proto3" json:"edge_type,omitempty"`
+	IdentityProperties []string               `protobuf:"bytes,3,rep,name=identity_properties,json=identityProperties,proto3" json:"identity_properties,omitempty"`
+	unknownFields      protoimpl.UnknownFields
+	sizeCache          protoimpl.SizeCache
+}
+
+func (x *EdgeIdentityConfig) Reset() {
+	*x = EdgeIdentityConfig{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *EdgeIdentityConfig) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*EdgeIdentityConfig) ProtoMessage() {}
+
+func (x *EdgeIdentityConfig) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use EdgeIdentityConfig.ProtoReflect.Descriptor instead.
+func (*EdgeIdentityConfig) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *EdgeIdentityConfig) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *EdgeIdentityConfig) GetEdgeType() string {
+	if x != nil {
+		return x.EdgeType
+	}
+	return ""
+}
+
+func (x *EdgeIdentityConfig) GetIdentityProperties() []string {
+	if x != nil {
+		return x.IdentityProperties
+	}
+	return nil
+}
+
+type ListIdentityConfigsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tenant        string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIdentityConfigsRequest) Reset() {
+	*x = ListIdentityConfigsRequest{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIdentityConfigsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIdentityConfigsRequest) ProtoMessage() {}
+
+func (x *ListIdentityConfigsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIdentityConfigsRequest.ProtoReflect.Descriptor instead.
+func (*ListIdentityConfigsRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *ListIdentityConfigsRequest) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+type ListIdentityConfigsResponse struct {
+	state         protoimpl.MessageState  `protogen:"open.v1"`
+	VertexConfigs []*VertexIdentityConfig `protobuf:"bytes,1,rep,name=vertex_configs,json=vertexConfigs,proto3" json:"vertex_configs,omitempty"`
+	EdgeConfigs   []*EdgeIdentityConfig   `protobuf:"bytes,2,rep,name=edge_configs,json=edgeConfigs,proto3" json:"edge_configs,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ListIdentityConfigsResponse) Reset() {
+	*x = ListIdentityConfigsResponse{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ListIdentityConfigsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ListIdentityConfigsResponse) ProtoMessage() {}
+
+func (x *ListIdentityConfigsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ListIdentityConfigsResponse.ProtoReflect.Descriptor instead.
+func (*ListIdentityConfigsResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *ListIdentityConfigsResponse) GetVertexConfigs() []*VertexIdentityConfig {
+	if x != nil {
+		return x.VertexConfigs
+	}
+	return nil
+}
+
+func (x *ListIdentityConfigsResponse) GetEdgeConfigs() []*EdgeIdentityConfig {
+	if x != nil {
+		return x.EdgeConfigs
+	}
+	return nil
+}
+
+type DeleteVertexIdentityConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tenant        string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	Schema        string                 `protobuf:"bytes,2,opt,name=schema,proto3" json:"schema,omitempty"`
+	IfExists      bool                   `protobuf:"varint,3,opt,name=if_exists,json=ifExists,proto3" json:"if_exists,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteVertexIdentityConfigRequest) Reset() {
+	*x = DeleteVertexIdentityConfigRequest{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteVertexIdentityConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteVertexIdentityConfigRequest) ProtoMessage() {}
+
+func (x *DeleteVertexIdentityConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteVertexIdentityConfigRequest.ProtoReflect.Descriptor instead.
+func (*DeleteVertexIdentityConfigRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *DeleteVertexIdentityConfigRequest) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *DeleteVertexIdentityConfigRequest) GetSchema() string {
+	if x != nil {
+		return x.Schema
+	}
+	return ""
+}
+
+func (x *DeleteVertexIdentityConfigRequest) GetIfExists() bool {
+	if x != nil {
+		return x.IfExists
+	}
+	return false
+}
+
+type DeleteVertexIdentityConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Deleted       bool                   `protobuf:"varint,1,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteVertexIdentityConfigResponse) Reset() {
+	*x = DeleteVertexIdentityConfigResponse{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteVertexIdentityConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteVertexIdentityConfigResponse) ProtoMessage() {}
+
+func (x *DeleteVertexIdentityConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteVertexIdentityConfigResponse.ProtoReflect.Descriptor instead.
+func (*DeleteVertexIdentityConfigResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *DeleteVertexIdentityConfigResponse) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
+}
+
+type DeleteEdgeIdentityConfigRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Tenant        string                 `protobuf:"bytes,1,opt,name=tenant,proto3" json:"tenant,omitempty"`
+	EdgeType      string                 `protobuf:"bytes,2,opt,name=edge_type,json=edgeType,proto3" json:"edge_type,omitempty"`
+	IfExists      bool                   `protobuf:"varint,3,opt,name=if_exists,json=ifExists,proto3" json:"if_exists,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteEdgeIdentityConfigRequest) Reset() {
+	*x = DeleteEdgeIdentityConfigRequest{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteEdgeIdentityConfigRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteEdgeIdentityConfigRequest) ProtoMessage() {}
+
+func (x *DeleteEdgeIdentityConfigRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteEdgeIdentityConfigRequest.ProtoReflect.Descriptor instead.
+func (*DeleteEdgeIdentityConfigRequest) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *DeleteEdgeIdentityConfigRequest) GetTenant() string {
+	if x != nil {
+		return x.Tenant
+	}
+	return ""
+}
+
+func (x *DeleteEdgeIdentityConfigRequest) GetEdgeType() string {
+	if x != nil {
+		return x.EdgeType
+	}
+	return ""
+}
+
+func (x *DeleteEdgeIdentityConfigRequest) GetIfExists() bool {
+	if x != nil {
+		return x.IfExists
+	}
+	return false
+}
+
+type DeleteEdgeIdentityConfigResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Deleted       bool                   `protobuf:"varint,1,opt,name=deleted,proto3" json:"deleted,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteEdgeIdentityConfigResponse) Reset() {
+	*x = DeleteEdgeIdentityConfigResponse{}
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[15]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteEdgeIdentityConfigResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteEdgeIdentityConfigResponse) ProtoMessage() {}
+
+func (x *DeleteEdgeIdentityConfigResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_api_proto_vitaledge_v1_ddl_proto_msgTypes[15]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteEdgeIdentityConfigResponse.ProtoReflect.Descriptor instead.
+func (*DeleteEdgeIdentityConfigResponse) Descriptor() ([]byte, []int) {
+	return file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DeleteEdgeIdentityConfigResponse) GetDeleted() bool {
+	if x != nil {
+		return x.Deleted
+	}
+	return false
+}
+
 var File_api_proto_vitaledge_v1_ddl_proto protoreflect.FileDescriptor
 
 const file_api_proto_vitaledge_v1_ddl_proto_rawDesc = "" +
@@ -281,11 +929,55 @@ const file_api_proto_vitaledge_v1_ddl_proto_rawDesc = "" +
 	"\rif_not_exists\x18\x04 \x01(\bR\vifNotExists\"f\n" +
 	"\x1fCreateEdgePropertyIndexResponse\x12\x18\n" +
 	"\acreated\x18\x01 \x01(\bR\acreated\x12)\n" +
-	"\x10indexed_entities\x18\x02 \x01(\x03R\x0findexedEntities2\x82\x02\n" +
+	"\x10indexed_entities\x18\x02 \x01(\x03R\x0findexedEntities\"\xa8\x01\n" +
+	"!CreateVertexIdentityConfigRequest\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x16\n" +
+	"\x06schema\x18\x02 \x01(\tR\x06schema\x12/\n" +
+	"\x13identity_properties\x18\x03 \x03(\tR\x12identityProperties\x12\"\n" +
+	"\rif_not_exists\x18\x04 \x01(\bR\vifNotExists\">\n" +
+	"\"CreateVertexIdentityConfigResponse\x12\x18\n" +
+	"\acreated\x18\x01 \x01(\bR\acreated\"\xab\x01\n" +
+	"\x1fCreateEdgeIdentityConfigRequest\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x1b\n" +
+	"\tedge_type\x18\x02 \x01(\tR\bedgeType\x12/\n" +
+	"\x13identity_properties\x18\x03 \x03(\tR\x12identityProperties\x12\"\n" +
+	"\rif_not_exists\x18\x04 \x01(\bR\vifNotExists\"<\n" +
+	" CreateEdgeIdentityConfigResponse\x12\x18\n" +
+	"\acreated\x18\x01 \x01(\bR\acreated\"w\n" +
+	"\x14VertexIdentityConfig\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x16\n" +
+	"\x06schema\x18\x02 \x01(\tR\x06schema\x12/\n" +
+	"\x13identity_properties\x18\x03 \x03(\tR\x12identityProperties\"z\n" +
+	"\x12EdgeIdentityConfig\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x1b\n" +
+	"\tedge_type\x18\x02 \x01(\tR\bedgeType\x12/\n" +
+	"\x13identity_properties\x18\x03 \x03(\tR\x12identityProperties\"4\n" +
+	"\x1aListIdentityConfigsRequest\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\"\xad\x01\n" +
+	"\x1bListIdentityConfigsResponse\x12I\n" +
+	"\x0evertex_configs\x18\x01 \x03(\v2\".vitaledge.v1.VertexIdentityConfigR\rvertexConfigs\x12C\n" +
+	"\fedge_configs\x18\x02 \x03(\v2 .vitaledge.v1.EdgeIdentityConfigR\vedgeConfigs\"p\n" +
+	"!DeleteVertexIdentityConfigRequest\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x16\n" +
+	"\x06schema\x18\x02 \x01(\tR\x06schema\x12\x1b\n" +
+	"\tif_exists\x18\x03 \x01(\bR\bifExists\">\n" +
+	"\"DeleteVertexIdentityConfigResponse\x12\x18\n" +
+	"\adeleted\x18\x01 \x01(\bR\adeleted\"s\n" +
+	"\x1fDeleteEdgeIdentityConfigRequest\x12\x16\n" +
+	"\x06tenant\x18\x01 \x01(\tR\x06tenant\x12\x1b\n" +
+	"\tedge_type\x18\x02 \x01(\tR\bedgeType\x12\x1b\n" +
+	"\tif_exists\x18\x03 \x01(\bR\bifExists\"<\n" +
+	" DeleteEdgeIdentityConfigResponse\x12\x18\n" +
+	"\adeleted\x18\x01 \x01(\bR\adeleted2\xe6\x06\n" +
 	"\n" +
 	"DdlService\x12|\n" +
 	"\x19CreateVertexPropertyIndex\x12..vitaledge.v1.CreateVertexPropertyIndexRequest\x1a/.vitaledge.v1.CreateVertexPropertyIndexResponse\x12v\n" +
-	"\x17CreateEdgePropertyIndex\x12,.vitaledge.v1.CreateEdgePropertyIndexRequest\x1a-.vitaledge.v1.CreateEdgePropertyIndexResponseB;Z9github.com/spaceqraft/vitaledge/api/proto/vitaledge/v1;v1b\x06proto3"
+	"\x17CreateEdgePropertyIndex\x12,.vitaledge.v1.CreateEdgePropertyIndexRequest\x1a-.vitaledge.v1.CreateEdgePropertyIndexResponse\x12\x7f\n" +
+	"\x1aCreateVertexIdentityConfig\x12/.vitaledge.v1.CreateVertexIdentityConfigRequest\x1a0.vitaledge.v1.CreateVertexIdentityConfigResponse\x12y\n" +
+	"\x18CreateEdgeIdentityConfig\x12-.vitaledge.v1.CreateEdgeIdentityConfigRequest\x1a..vitaledge.v1.CreateEdgeIdentityConfigResponse\x12j\n" +
+	"\x13ListIdentityConfigs\x12(.vitaledge.v1.ListIdentityConfigsRequest\x1a).vitaledge.v1.ListIdentityConfigsResponse\x12\x7f\n" +
+	"\x1aDeleteVertexIdentityConfig\x12/.vitaledge.v1.DeleteVertexIdentityConfigRequest\x1a0.vitaledge.v1.DeleteVertexIdentityConfigResponse\x12y\n" +
+	"\x18DeleteEdgeIdentityConfig\x12-.vitaledge.v1.DeleteEdgeIdentityConfigRequest\x1a..vitaledge.v1.DeleteEdgeIdentityConfigResponseB;Z9github.com/spaceqraft/vitaledge/api/proto/vitaledge/v1;v1b\x06proto3"
 
 var (
 	file_api_proto_vitaledge_v1_ddl_proto_rawDescOnce sync.Once
@@ -299,23 +991,47 @@ func file_api_proto_vitaledge_v1_ddl_proto_rawDescGZIP() []byte {
 	return file_api_proto_vitaledge_v1_ddl_proto_rawDescData
 }
 
-var file_api_proto_vitaledge_v1_ddl_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_api_proto_vitaledge_v1_ddl_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
 var file_api_proto_vitaledge_v1_ddl_proto_goTypes = []any{
-	(*CreateVertexPropertyIndexRequest)(nil),  // 0: vitaledge.v1.CreateVertexPropertyIndexRequest
-	(*CreateVertexPropertyIndexResponse)(nil), // 1: vitaledge.v1.CreateVertexPropertyIndexResponse
-	(*CreateEdgePropertyIndexRequest)(nil),    // 2: vitaledge.v1.CreateEdgePropertyIndexRequest
-	(*CreateEdgePropertyIndexResponse)(nil),   // 3: vitaledge.v1.CreateEdgePropertyIndexResponse
+	(*CreateVertexPropertyIndexRequest)(nil),   // 0: vitaledge.v1.CreateVertexPropertyIndexRequest
+	(*CreateVertexPropertyIndexResponse)(nil),  // 1: vitaledge.v1.CreateVertexPropertyIndexResponse
+	(*CreateEdgePropertyIndexRequest)(nil),     // 2: vitaledge.v1.CreateEdgePropertyIndexRequest
+	(*CreateEdgePropertyIndexResponse)(nil),    // 3: vitaledge.v1.CreateEdgePropertyIndexResponse
+	(*CreateVertexIdentityConfigRequest)(nil),  // 4: vitaledge.v1.CreateVertexIdentityConfigRequest
+	(*CreateVertexIdentityConfigResponse)(nil), // 5: vitaledge.v1.CreateVertexIdentityConfigResponse
+	(*CreateEdgeIdentityConfigRequest)(nil),    // 6: vitaledge.v1.CreateEdgeIdentityConfigRequest
+	(*CreateEdgeIdentityConfigResponse)(nil),   // 7: vitaledge.v1.CreateEdgeIdentityConfigResponse
+	(*VertexIdentityConfig)(nil),               // 8: vitaledge.v1.VertexIdentityConfig
+	(*EdgeIdentityConfig)(nil),                 // 9: vitaledge.v1.EdgeIdentityConfig
+	(*ListIdentityConfigsRequest)(nil),         // 10: vitaledge.v1.ListIdentityConfigsRequest
+	(*ListIdentityConfigsResponse)(nil),        // 11: vitaledge.v1.ListIdentityConfigsResponse
+	(*DeleteVertexIdentityConfigRequest)(nil),  // 12: vitaledge.v1.DeleteVertexIdentityConfigRequest
+	(*DeleteVertexIdentityConfigResponse)(nil), // 13: vitaledge.v1.DeleteVertexIdentityConfigResponse
+	(*DeleteEdgeIdentityConfigRequest)(nil),    // 14: vitaledge.v1.DeleteEdgeIdentityConfigRequest
+	(*DeleteEdgeIdentityConfigResponse)(nil),   // 15: vitaledge.v1.DeleteEdgeIdentityConfigResponse
 }
 var file_api_proto_vitaledge_v1_ddl_proto_depIdxs = []int32{
-	0, // 0: vitaledge.v1.DdlService.CreateVertexPropertyIndex:input_type -> vitaledge.v1.CreateVertexPropertyIndexRequest
-	2, // 1: vitaledge.v1.DdlService.CreateEdgePropertyIndex:input_type -> vitaledge.v1.CreateEdgePropertyIndexRequest
-	1, // 2: vitaledge.v1.DdlService.CreateVertexPropertyIndex:output_type -> vitaledge.v1.CreateVertexPropertyIndexResponse
-	3, // 3: vitaledge.v1.DdlService.CreateEdgePropertyIndex:output_type -> vitaledge.v1.CreateEdgePropertyIndexResponse
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	8,  // 0: vitaledge.v1.ListIdentityConfigsResponse.vertex_configs:type_name -> vitaledge.v1.VertexIdentityConfig
+	9,  // 1: vitaledge.v1.ListIdentityConfigsResponse.edge_configs:type_name -> vitaledge.v1.EdgeIdentityConfig
+	0,  // 2: vitaledge.v1.DdlService.CreateVertexPropertyIndex:input_type -> vitaledge.v1.CreateVertexPropertyIndexRequest
+	2,  // 3: vitaledge.v1.DdlService.CreateEdgePropertyIndex:input_type -> vitaledge.v1.CreateEdgePropertyIndexRequest
+	4,  // 4: vitaledge.v1.DdlService.CreateVertexIdentityConfig:input_type -> vitaledge.v1.CreateVertexIdentityConfigRequest
+	6,  // 5: vitaledge.v1.DdlService.CreateEdgeIdentityConfig:input_type -> vitaledge.v1.CreateEdgeIdentityConfigRequest
+	10, // 6: vitaledge.v1.DdlService.ListIdentityConfigs:input_type -> vitaledge.v1.ListIdentityConfigsRequest
+	12, // 7: vitaledge.v1.DdlService.DeleteVertexIdentityConfig:input_type -> vitaledge.v1.DeleteVertexIdentityConfigRequest
+	14, // 8: vitaledge.v1.DdlService.DeleteEdgeIdentityConfig:input_type -> vitaledge.v1.DeleteEdgeIdentityConfigRequest
+	1,  // 9: vitaledge.v1.DdlService.CreateVertexPropertyIndex:output_type -> vitaledge.v1.CreateVertexPropertyIndexResponse
+	3,  // 10: vitaledge.v1.DdlService.CreateEdgePropertyIndex:output_type -> vitaledge.v1.CreateEdgePropertyIndexResponse
+	5,  // 11: vitaledge.v1.DdlService.CreateVertexIdentityConfig:output_type -> vitaledge.v1.CreateVertexIdentityConfigResponse
+	7,  // 12: vitaledge.v1.DdlService.CreateEdgeIdentityConfig:output_type -> vitaledge.v1.CreateEdgeIdentityConfigResponse
+	11, // 13: vitaledge.v1.DdlService.ListIdentityConfigs:output_type -> vitaledge.v1.ListIdentityConfigsResponse
+	13, // 14: vitaledge.v1.DdlService.DeleteVertexIdentityConfig:output_type -> vitaledge.v1.DeleteVertexIdentityConfigResponse
+	15, // 15: vitaledge.v1.DdlService.DeleteEdgeIdentityConfig:output_type -> vitaledge.v1.DeleteEdgeIdentityConfigResponse
+	9,  // [9:16] is the sub-list for method output_type
+	2,  // [2:9] is the sub-list for method input_type
+	2,  // [2:2] is the sub-list for extension type_name
+	2,  // [2:2] is the sub-list for extension extendee
+	0,  // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_api_proto_vitaledge_v1_ddl_proto_init() }
@@ -329,7 +1045,7 @@ func file_api_proto_vitaledge_v1_ddl_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_proto_vitaledge_v1_ddl_proto_rawDesc), len(file_api_proto_vitaledge_v1_ddl_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   16,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

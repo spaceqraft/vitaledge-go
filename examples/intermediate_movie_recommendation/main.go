@@ -309,8 +309,8 @@ func ensureIngestIndexes(ctx context.Context, client *vitaledge.Client, supporte
 		schema   string
 		property string
 	}{
-		{itype: "Vertex", schema: "Movie", property: "movie_id"},
-		{itype: "Vertex", schema: "User", property: "user_id"},
+		{itype: "VertexId", schema: "Movie", property: "movie_id"},
+		{itype: "VertexId", schema: "User", property: "user_id"},
 		{itype: "Vertex", schema: "Genre", property: "genre"},
 		{itype: "Vertex", schema: "Movie", property: "year"},
 		{itype: "Vertex", schema: "Movie", property: "num_ratings"},
@@ -318,7 +318,18 @@ func ensureIngestIndexes(ctx context.Context, client *vitaledge.Client, supporte
 	}
 
 	for _, spec := range specs {
-		if spec.itype == "Vertex" {
+		if spec.itype == "VertexId" {
+			result, err := client.CreateVertexIdentityConfig(ctx, spec.schema, []string{spec.property}, true)
+			if err != nil {
+				fmt.Printf("  VertexIdentity %s.%s: failed (%v)\n", spec.schema, spec.property, err)
+				continue
+			}
+			state := "already exists"
+			if result.Created {
+				state = "created"
+			}
+			fmt.Printf("  VertexIdentity %s.%s: %s\n", spec.schema, spec.property, state)
+		} else if spec.itype == "Vertex" {
 			result, err := client.CreateVertexPropertyIndex(ctx, spec.schema, spec.property, true)
 			if err != nil {
 				fmt.Printf("  Index %s.%s: failed (%v)\n", spec.schema, spec.property, err)

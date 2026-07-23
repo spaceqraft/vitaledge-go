@@ -186,3 +186,85 @@ func TestCreatePropertyIndexRequestValidation(t *testing.T) {
 		t.Fatal("expected error for empty property")
 	}
 }
+
+func TestCreateVertexIdentityConfigRequestBuildsExpectedPayload(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: "acme"}
+	req, err := client.createVertexIdentityConfigRequest("Movie", []string{" object_id ", "source_id"}, true)
+	if err != nil {
+		t.Fatalf("createVertexIdentityConfigRequest() unexpected error: %v", err)
+	}
+
+	if req.GetTenant() != "acme" {
+		t.Fatalf("tenant mismatch: %q", req.GetTenant())
+	}
+	if req.GetSchema() != "Movie" {
+		t.Fatalf("schema mismatch: %q", req.GetSchema())
+	}
+	if !reflect.DeepEqual(req.GetIdentityProperties(), []string{"object_id", "source_id"}) {
+		t.Fatalf("identity properties mismatch: %#v", req.GetIdentityProperties())
+	}
+	if !req.GetIfNotExists() {
+		t.Fatal("expected if_not_exists=true")
+	}
+}
+
+func TestCreateVertexIdentityConfigRequestValidation(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: DefaultTenant}
+
+	if _, err := client.createVertexIdentityConfigRequest("", []string{"object_id"}, true); err == nil {
+		t.Fatal("expected error for empty schema")
+	}
+
+	if _, err := client.createVertexIdentityConfigRequest("Movie", nil, true); err == nil {
+		t.Fatal("expected error for missing identity properties")
+	}
+
+	if _, err := client.createVertexIdentityConfigRequest("Movie", []string{" "}, true); err == nil {
+		t.Fatal("expected error for empty identity property")
+	}
+}
+
+func TestCreateEdgeIdentityConfigRequestBuildsExpectedPayload(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: "acme"}
+	req, err := client.createEdgeIdentityConfigRequest("KNOWS", []string{" object_id "}, false)
+	if err != nil {
+		t.Fatalf("createEdgeIdentityConfigRequest() unexpected error: %v", err)
+	}
+
+	if req.GetTenant() != "acme" {
+		t.Fatalf("tenant mismatch: %q", req.GetTenant())
+	}
+	if req.GetEdgeType() != "KNOWS" {
+		t.Fatalf("edge type mismatch: %q", req.GetEdgeType())
+	}
+	if !reflect.DeepEqual(req.GetIdentityProperties(), []string{"object_id"}) {
+		t.Fatalf("identity properties mismatch: %#v", req.GetIdentityProperties())
+	}
+	if req.GetIfNotExists() {
+		t.Fatal("expected if_not_exists=false")
+	}
+}
+
+func TestCreateEdgeIdentityConfigRequestValidation(t *testing.T) {
+	t.Parallel()
+
+	client := &Client{tenant: DefaultTenant}
+
+	if _, err := client.createEdgeIdentityConfigRequest("", []string{"object_id"}, true); err == nil {
+		t.Fatal("expected error for empty edge type")
+	}
+
+	if _, err := client.createEdgeIdentityConfigRequest("KNOWS", nil, true); err == nil {
+		t.Fatal("expected error for missing identity properties")
+	}
+
+	if _, err := client.createEdgeIdentityConfigRequest("KNOWS", []string{"", "source_id"}, true); err == nil {
+		t.Fatal("expected error for empty identity property")
+	}
+}

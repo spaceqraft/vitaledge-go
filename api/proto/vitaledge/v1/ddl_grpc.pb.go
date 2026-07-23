@@ -19,8 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	DdlService_CreateVertexPropertyIndex_FullMethodName = "/vitaledge.v1.DdlService/CreateVertexPropertyIndex"
-	DdlService_CreateEdgePropertyIndex_FullMethodName   = "/vitaledge.v1.DdlService/CreateEdgePropertyIndex"
+	DdlService_CreateVertexPropertyIndex_FullMethodName  = "/vitaledge.v1.DdlService/CreateVertexPropertyIndex"
+	DdlService_CreateEdgePropertyIndex_FullMethodName    = "/vitaledge.v1.DdlService/CreateEdgePropertyIndex"
+	DdlService_CreateVertexIdentityConfig_FullMethodName = "/vitaledge.v1.DdlService/CreateVertexIdentityConfig"
+	DdlService_CreateEdgeIdentityConfig_FullMethodName   = "/vitaledge.v1.DdlService/CreateEdgeIdentityConfig"
+	DdlService_ListIdentityConfigs_FullMethodName        = "/vitaledge.v1.DdlService/ListIdentityConfigs"
+	DdlService_DeleteVertexIdentityConfig_FullMethodName = "/vitaledge.v1.DdlService/DeleteVertexIdentityConfig"
+	DdlService_DeleteEdgeIdentityConfig_FullMethodName   = "/vitaledge.v1.DdlService/DeleteEdgeIdentityConfig"
 )
 
 // DdlServiceClient is the client API for DdlService service.
@@ -29,6 +34,11 @@ const (
 type DdlServiceClient interface {
 	CreateVertexPropertyIndex(ctx context.Context, in *CreateVertexPropertyIndexRequest, opts ...grpc.CallOption) (*CreateVertexPropertyIndexResponse, error)
 	CreateEdgePropertyIndex(ctx context.Context, in *CreateEdgePropertyIndexRequest, opts ...grpc.CallOption) (*CreateEdgePropertyIndexResponse, error)
+	CreateVertexIdentityConfig(ctx context.Context, in *CreateVertexIdentityConfigRequest, opts ...grpc.CallOption) (*CreateVertexIdentityConfigResponse, error)
+	CreateEdgeIdentityConfig(ctx context.Context, in *CreateEdgeIdentityConfigRequest, opts ...grpc.CallOption) (*CreateEdgeIdentityConfigResponse, error)
+	ListIdentityConfigs(ctx context.Context, in *ListIdentityConfigsRequest, opts ...grpc.CallOption) (*ListIdentityConfigsResponse, error)
+	DeleteVertexIdentityConfig(ctx context.Context, in *DeleteVertexIdentityConfigRequest, opts ...grpc.CallOption) (*DeleteVertexIdentityConfigResponse, error)
+	DeleteEdgeIdentityConfig(ctx context.Context, in *DeleteEdgeIdentityConfigRequest, opts ...grpc.CallOption) (*DeleteEdgeIdentityConfigResponse, error)
 }
 
 type ddlServiceClient struct {
@@ -59,12 +69,67 @@ func (c *ddlServiceClient) CreateEdgePropertyIndex(ctx context.Context, in *Crea
 	return out, nil
 }
 
+func (c *ddlServiceClient) CreateVertexIdentityConfig(ctx context.Context, in *CreateVertexIdentityConfigRequest, opts ...grpc.CallOption) (*CreateVertexIdentityConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateVertexIdentityConfigResponse)
+	err := c.cc.Invoke(ctx, DdlService_CreateVertexIdentityConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ddlServiceClient) CreateEdgeIdentityConfig(ctx context.Context, in *CreateEdgeIdentityConfigRequest, opts ...grpc.CallOption) (*CreateEdgeIdentityConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateEdgeIdentityConfigResponse)
+	err := c.cc.Invoke(ctx, DdlService_CreateEdgeIdentityConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ddlServiceClient) ListIdentityConfigs(ctx context.Context, in *ListIdentityConfigsRequest, opts ...grpc.CallOption) (*ListIdentityConfigsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListIdentityConfigsResponse)
+	err := c.cc.Invoke(ctx, DdlService_ListIdentityConfigs_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ddlServiceClient) DeleteVertexIdentityConfig(ctx context.Context, in *DeleteVertexIdentityConfigRequest, opts ...grpc.CallOption) (*DeleteVertexIdentityConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteVertexIdentityConfigResponse)
+	err := c.cc.Invoke(ctx, DdlService_DeleteVertexIdentityConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ddlServiceClient) DeleteEdgeIdentityConfig(ctx context.Context, in *DeleteEdgeIdentityConfigRequest, opts ...grpc.CallOption) (*DeleteEdgeIdentityConfigResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteEdgeIdentityConfigResponse)
+	err := c.cc.Invoke(ctx, DdlService_DeleteEdgeIdentityConfig_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DdlServiceServer is the server API for DdlService service.
 // All implementations must embed UnimplementedDdlServiceServer
 // for forward compatibility.
 type DdlServiceServer interface {
 	CreateVertexPropertyIndex(context.Context, *CreateVertexPropertyIndexRequest) (*CreateVertexPropertyIndexResponse, error)
 	CreateEdgePropertyIndex(context.Context, *CreateEdgePropertyIndexRequest) (*CreateEdgePropertyIndexResponse, error)
+	CreateVertexIdentityConfig(context.Context, *CreateVertexIdentityConfigRequest) (*CreateVertexIdentityConfigResponse, error)
+	CreateEdgeIdentityConfig(context.Context, *CreateEdgeIdentityConfigRequest) (*CreateEdgeIdentityConfigResponse, error)
+	ListIdentityConfigs(context.Context, *ListIdentityConfigsRequest) (*ListIdentityConfigsResponse, error)
+	DeleteVertexIdentityConfig(context.Context, *DeleteVertexIdentityConfigRequest) (*DeleteVertexIdentityConfigResponse, error)
+	DeleteEdgeIdentityConfig(context.Context, *DeleteEdgeIdentityConfigRequest) (*DeleteEdgeIdentityConfigResponse, error)
 	mustEmbedUnimplementedDdlServiceServer()
 }
 
@@ -80,6 +145,21 @@ func (UnimplementedDdlServiceServer) CreateVertexPropertyIndex(context.Context, 
 }
 func (UnimplementedDdlServiceServer) CreateEdgePropertyIndex(context.Context, *CreateEdgePropertyIndexRequest) (*CreateEdgePropertyIndexResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method CreateEdgePropertyIndex not implemented")
+}
+func (UnimplementedDdlServiceServer) CreateVertexIdentityConfig(context.Context, *CreateVertexIdentityConfigRequest) (*CreateVertexIdentityConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateVertexIdentityConfig not implemented")
+}
+func (UnimplementedDdlServiceServer) CreateEdgeIdentityConfig(context.Context, *CreateEdgeIdentityConfigRequest) (*CreateEdgeIdentityConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method CreateEdgeIdentityConfig not implemented")
+}
+func (UnimplementedDdlServiceServer) ListIdentityConfigs(context.Context, *ListIdentityConfigsRequest) (*ListIdentityConfigsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ListIdentityConfigs not implemented")
+}
+func (UnimplementedDdlServiceServer) DeleteVertexIdentityConfig(context.Context, *DeleteVertexIdentityConfigRequest) (*DeleteVertexIdentityConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteVertexIdentityConfig not implemented")
+}
+func (UnimplementedDdlServiceServer) DeleteEdgeIdentityConfig(context.Context, *DeleteEdgeIdentityConfigRequest) (*DeleteEdgeIdentityConfigResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method DeleteEdgeIdentityConfig not implemented")
 }
 func (UnimplementedDdlServiceServer) mustEmbedUnimplementedDdlServiceServer() {}
 func (UnimplementedDdlServiceServer) testEmbeddedByValue()                    {}
@@ -138,6 +218,96 @@ func _DdlService_CreateEdgePropertyIndex_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DdlService_CreateVertexIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateVertexIdentityConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DdlServiceServer).CreateVertexIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DdlService_CreateVertexIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DdlServiceServer).CreateVertexIdentityConfig(ctx, req.(*CreateVertexIdentityConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DdlService_CreateEdgeIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateEdgeIdentityConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DdlServiceServer).CreateEdgeIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DdlService_CreateEdgeIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DdlServiceServer).CreateEdgeIdentityConfig(ctx, req.(*CreateEdgeIdentityConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DdlService_ListIdentityConfigs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListIdentityConfigsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DdlServiceServer).ListIdentityConfigs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DdlService_ListIdentityConfigs_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DdlServiceServer).ListIdentityConfigs(ctx, req.(*ListIdentityConfigsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DdlService_DeleteVertexIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteVertexIdentityConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DdlServiceServer).DeleteVertexIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DdlService_DeleteVertexIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DdlServiceServer).DeleteVertexIdentityConfig(ctx, req.(*DeleteVertexIdentityConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DdlService_DeleteEdgeIdentityConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteEdgeIdentityConfigRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DdlServiceServer).DeleteEdgeIdentityConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DdlService_DeleteEdgeIdentityConfig_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DdlServiceServer).DeleteEdgeIdentityConfig(ctx, req.(*DeleteEdgeIdentityConfigRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DdlService_ServiceDesc is the grpc.ServiceDesc for DdlService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -152,6 +322,26 @@ var DdlService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateEdgePropertyIndex",
 			Handler:    _DdlService_CreateEdgePropertyIndex_Handler,
+		},
+		{
+			MethodName: "CreateVertexIdentityConfig",
+			Handler:    _DdlService_CreateVertexIdentityConfig_Handler,
+		},
+		{
+			MethodName: "CreateEdgeIdentityConfig",
+			Handler:    _DdlService_CreateEdgeIdentityConfig_Handler,
+		},
+		{
+			MethodName: "ListIdentityConfigs",
+			Handler:    _DdlService_ListIdentityConfigs_Handler,
+		},
+		{
+			MethodName: "DeleteVertexIdentityConfig",
+			Handler:    _DdlService_DeleteVertexIdentityConfig_Handler,
+		},
+		{
+			MethodName: "DeleteEdgeIdentityConfig",
+			Handler:    _DdlService_DeleteEdgeIdentityConfig_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
